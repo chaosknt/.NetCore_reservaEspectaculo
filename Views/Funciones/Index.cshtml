@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ReservaEspectaculo.Models.Funcion>
+@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> _signinmanager
+
+@{
+    ViewData["Title"] = "Funciones";
+}
+
+<h1>Funciones</h1>
+
+<p>
+    @if (User.IsInRole("Empleado"))
+    {
+    <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+
+    }
+</p>
+<div class="row">
+    @foreach (var item in Model)
+    {
+               
+        <form asp-controller="ReservaPelicula" asp-action="GuardarReserva"  method="post">
+            <div class="column" style="margin-right:10px">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="~/img/default.png" alt="Card image cap">
+                    <div class="card-body">
+                        <center>
+                            <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Pelicula.Titulo)</h5>
+                            <p class="card-text">Fecha: @Html.DisplayFor(modelItem => item.Fecha) Hora:  @Html.DisplayFor(modelItem => item.Hora) </p>
+                            @if (User.IsInRole("Cliente"))
+                            {
+
+                                <p class="card-text">Butacas disponibles:  @Html.DisplayFor(modelItem => item.ButacasDisponibles) Sala:@Html.DisplayFor(modelItem => item.Sala.TipoSala.Nombre) Precio: @Html.DisplayFor(modelItem => item.Sala.TipoSala.Precio)  </p>
+                                <label>Butacas:</label>
+                                <input type="number" name="cantButacas" min="0" max="@item.ButacasDisponibles" />
+                                <input name="funcionId" type="hidden" value="@Html.DisplayFor(modelItem => item.FuncionId)" />
+                                <br />
+                                <input type="submit" value="Reservar" class="btn btn-primary" />
+                            }
+
+                            @if (User.IsInRole("Empleado"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.FuncionId"><i class="fas fa-pen-square"></i></a>
+                                <a asp-action="Details" asp-route-id="@item.FuncionId"><i class="fas fa-search"></i></a>
+
+
+                                @if (item.Reservas.Count == 0)
+                                {
+                                    <a asp-action="Delete" asp-route-id="@item.FuncionId"><i class="fas fa-trash-alt"></i></a>
+                                }
+
+                                <h5 class="card-title">Reservas: @Html.DisplayFor(modelItem => item.Reservas.Count)</h5>
+                                <p>Recaudacion total: $@item.Recaudacion()</p>
+
+                            }
+
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="idPelicula" value="@Html.DisplayFor(modelItem => item.PeliculaId)" />
+
+        </form>
+        
+
+    }
+</div>
+

@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h1>Roles</h1>
+
+<a asp-action="CrearRoles">Crear roles</a>
+
+@if (ViewBag.Roles != null)
+{
+    <ul>
+        @foreach (var rol in ViewBag.Roles)
+        {
+            <li>@rol</li>
+        }
+    </ul>
+}
+
+

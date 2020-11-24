@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ReservaEspectaculo.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Agregar nueva</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaAlta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadButacas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReservaActiva)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Funcion.Pelicula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaAlta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadButacas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservaActiva)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ReservaId"><i class="fas fa-pen-square"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.ReservaId"><i class="fas fa-search"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.ReservaId"><i class="fas fa-trash-alt"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

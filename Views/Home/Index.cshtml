@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ReservaEspectaculo.Models.Pelicula>
+@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> _signinmanager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+    <form asp-controller="ReservaPelicula" asp-action="ElegirFecha" method="get">
+        <div class="column" style="margin-right:10px">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="~/img/default.png" alt="Card image cap">
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Titulo)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Descripcion)</p>
+                        <p class="card-text">Género: @Html.DisplayFor(modelItem => item.Genero.Nombre)</p>
+                        @if (_signinmanager.IsSignedIn(User) && User.IsInRole("Cliente"))
+                        {
+                            <input type="submit" value="Reservar" class="btn btn-primary" />
+                            <br />
+                        }
+
+                        <br />
+                        @if (_signinmanager.IsSignedIn(User))
+                        {
+                            <a class="btn btn-outline-info" asp-controller="Funciones" asp-action="Index" asp-route-id="@item.PeliculaId"> Funciones</a>
+                        }
+                        
+                    </center>
+                </div>
+            </div>
+        </div>
+        
+        <input type="hidden" name="idPelicula" value="@Html.DisplayFor(modelItem => item.PeliculaId)" />                
+    </form>
+
+     }
+</div>

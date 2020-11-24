@@ -1,0 +1,139 @@
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<Usuario> _signinmanager
+@inject ReservaEspectaculo.Data.MiContexto _micontexto
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RetroCine</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://kit.fontawesome.com/c57600f611.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RetroCine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Cartelera</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Funciones" asp-action="Index">Funciones</a>
+                        </li>
+
+                        @if (_signinmanager.IsSignedIn(User))
+                        {
+                            if (User.IsInRole("Empleado"))
+                            {
+                                <li class="nav-item">
+
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Cuentas
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            @*<a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>*@
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Index">Empleados</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Direcciones" asp-action="Index">Direcciones</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
+                                        </div>
+                                    </div>
+
+                                </li>
+
+                                <li class="nav-item">
+
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Administrar Peliculas
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Peliculas" asp-action="Index">Peliculas</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Generos" asp-action="Index">Generos</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Peliculas" asp-action="BuscarBalance">ver balance</a>
+                                        </div>
+                                    </div>
+
+                                </li>
+
+                                <li class="nav-item">
+
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Administrar Salas
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="TipoSalas" asp-action="Index">Tipos de salas</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Salas" asp-action="Index">Ver Salas</a>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                
+                            }
+
+                            <li>
+                                <div class="dropdown">
+
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @User.Identity.Name
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        @if (User.IsInRole("Cliente"))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="MostrarDatos">Mis datos</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
+                                        }
+
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="CuentaCliente" asp-action="CerrarSesion">Salir</a>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                        }
+                        else
+                        {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="CuentaCliente" asp-action="IniciarSesion">Entrar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-primary" asp-area="" asp-controller="CuentaCliente" asp-action="create">Registrarse</a>
+                            </li>
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            RetroCine  &copy; 2020  <i class="fas fa-map-marker-alt"></i> Cerrito 628 CABA | 4797-8571
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

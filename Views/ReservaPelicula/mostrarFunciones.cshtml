@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ReservaEspectaculo.ViewModels.MostrarFuncionesVM>
+
+@{
+    ViewData["Title"] = "Mostrar Funciones";
+}
+
+<h1>Último paso</h1>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+    <form asp-controller="ReservaPelicula" asp-action="GuardarReserva" method="post">
+        <div class="column" style="margin-right:10px">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="~/img/default.png" alt="Card image cap">
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Titulo)</h5>
+                        <p class="card-text">Fecha: @Html.DisplayFor(modelItem => item.Fecha) hora: @Html.DisplayFor(modelItem => item.Hora) Butacas: @Html.DisplayFor(modelItem => item.cantButacas) </p>
+                        <p class="card-text">Categoria: @Html.DisplayFor(modelItem => item.tipoSala) | Sala: @Html.DisplayFor(modelItem => item.Sala) </p>
+
+                        <input name="cantButacas" type="hidden" value="@Html.DisplayFor(modelItem => item.cantButacas)" />
+                        <input name="funcionId" type="hidden" value="@Html.DisplayFor(modelItem => item.FuncionId)" />
+                        <input type="submit" value="Reservar" class="btn btn-primary" />
+                    </center>
+                </div>
+            </div>         
+         </div>             
+
+    </form>
+
+    }
+</div>

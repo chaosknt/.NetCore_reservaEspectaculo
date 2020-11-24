@@ -1,0 +1,32 @@
+﻿@model ReservaEspectaculo.Models.TipoSala
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+
+<h3>¿Está seguro que desea eliminar el tipo de sala?</h3>
+<div>
+    
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="TipoSalaId" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index"><i class="fas fa-undo"></i></a>
+    </form>
+</div>

@@ -1,0 +1,29 @@
+﻿@model ReservaEspectaculo.Models.TipoSala
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<h1>Detalles Tipo de sala</h1>
+
+<div>   
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TipoSalaId"><i class="fas fa-pen-square"></i></a> |
+    <a asp-action="Index"><i class="fas fa-undo"></i></a>
+</div>
